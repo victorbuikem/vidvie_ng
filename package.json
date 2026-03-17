@@ -16,7 +16,8 @@
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
-		"auth:schema": "better-auth generate --config src/lib/server/auth.ts --output src/lib/server/db/auth.schema.ts --yes"
+		"auth:schema": "better-auth generate --config src/lib/server/auth.ts --output src/lib/server/db/auth.schema.ts --yes",
+		"db:seed": "tsx scripts/seed.ts"
 	},
 	"devDependencies": {
 		"@better-auth/cli": "~1.4.21",
@@ -28,6 +29,7 @@
 		"@tailwindcss/vite": "^4.1.18",
 		"@types/node": "^24",
 		"better-auth": "~1.4.21",
+		"dotenv": "^17.3.1",
 		"drizzle-kit": "^0.31.8",
 		"drizzle-orm": "^0.45.1",
 		"postgres": "^3.4.8",
@@ -37,7 +39,16 @@
 		"svelte": "^5.51.0",
 		"svelte-check": "^4.4.2",
 		"tailwindcss": "^4.1.18",
+		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
 		"vite": "^7.3.1"
+	},
+	"dependencies": {
+		"@aws-sdk/client-s3": "^3.1006.0",
+		"@aws-sdk/s3-request-presigner": "^3.1006.0",
+		"bits-ui": "^2.16.3",
+		"svelte-sonner": "^1.1.0",
+		"ulid": "^3.0.2",
+		"zod": "^4.3.6"
 	}
 }
