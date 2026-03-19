@@ -15,7 +15,7 @@
 </svelte:head>
 
 <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
-	<h1 class="text-4xl font-bold text-surface-900">Contact Us</h1>
+	<h1 class="font-heading text-4xl font-medium text-surface-900">Contact Us</h1>
 	<p class="mt-2 text-surface-500">Have a question or feedback? We'd love to hear from you.</p>
 
 	<div class="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2">
@@ -73,7 +73,7 @@
 			<div>
 				<h3 class="font-semibold text-surface-900">Email</h3>
 				<p class="mt-1 text-surface-500">
-					<a href="mailto:hello@vidvie.ng" class="text-brand-600 hover:text-brand-700">hello@vidvie.ng</a>
+					<a href="mailto:hello@vidvie.ng" class="text-brand-400 hover:text-brand-500">hello@vidvie.ng</a>
 				</p>
 			</div>
 			<div>

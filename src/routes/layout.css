@@ -3,17 +3,17 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
-	/* Brand colors — Vidvie */
-	--color-brand-50: #eff6ff;
-	--color-brand-100: #dbeafe;
-	--color-brand-200: #bfdbfe;
-	--color-brand-300: #93c5fd;
-	--color-brand-400: #60a5fa;
-	--color-brand-500: #2563eb;
-	--color-brand-600: #1d4ed8;
-	--color-brand-700: #1e40af;
-	--color-brand-800: #1e3a8a;
-	--color-brand-900: #172554;
+	/* Brand colors — warm earthy palette matching vidvie.store */
+	--color-brand-50: #fdf8f2;
+	--color-brand-100: #f9f4e9;
+	--color-brand-200: #f6dfc0;
+	--color-brand-300: #e6c89a;
+	--color-brand-400: #e6a74f;
+	--color-brand-500: #d4943f;
+	--color-brand-600: #b87a30;
+	--color-brand-700: #8c5c24;
+	--color-brand-800: #5c3d18;
+	--color-brand-900: #201616;
 
 	/* Semantic colors */
 	--color-success-500: #22c55e;
@@ -23,28 +23,29 @@
 	--color-danger-500: #ef4444;
 	--color-danger-600: #dc2626;
 
-	/* Surface colors */
-	--color-surface-50: #fafafa;
-	--color-surface-100: #f5f5f5;
-	--color-surface-200: #e5e5e5;
-	--color-surface-300: #d4d4d4;
-	--color-surface-400: #a3a3a3;
-	--color-surface-500: #737373;
-	--color-surface-600: #525252;
-	--color-surface-700: #404040;
-	--color-surface-800: #262626;
-	--color-surface-900: #171717;
+	/* Surface colors — warm neutrals */
+	--color-surface-50: #fefcf9;
+	--color-surface-100: #f9f4e9;
+	--color-surface-200: #f0e6d4;
+	--color-surface-300: #dab491;
+	--color-surface-400: #b89a78;
+	--color-surface-500: #8c7a64;
+	--color-surface-600: #6b5d4e;
+	--color-surface-700: #4a3f35;
+	--color-surface-800: #2e2622;
+	--color-surface-900: #201616;
 
 	/* Typography */
-	--font-heading: 'Inter', ui-sans-serif, system-ui, sans-serif;
-	--font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+	--font-heading: 'Trirong', ui-serif, Georgia, serif;
+	--font-body: 'Questrial', ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Base styles */
 body {
 	font-family: var(--font-body);
 	color: var(--color-surface-900);
-	background-color: white;
+	background-color: var(--color-brand-200);
+	letter-spacing: 0.06rem;
 }
 
 h1,

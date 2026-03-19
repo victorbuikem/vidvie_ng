@@ -12,8 +12,7 @@
 
 	const navLinks = [
 		{ href: '/', label: 'Home' },
-		{ href: '/shop', label: 'Shop' },
-		{ href: '/about', label: 'About' },
+		{ href: '/shop', label: 'Catalog' },
 		{ href: '/contact', label: 'Contact' }
 	];
 
@@ -23,11 +22,11 @@
 	};
 </script>
 
-<header class="sticky top-0 z-40 border-b border-surface-200 bg-white/95 backdrop-blur-sm">
+<header class="sticky top-0 z-40 border-b border-surface-300/50 bg-brand-200/95 backdrop-blur-sm">
 	<div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 		<!-- Logo -->
-		<a href="/" class="text-xl font-bold text-brand-600">
-			Vidvie
+		<a href="/" class="font-heading text-xl font-semibold tracking-wider text-brand-900">
+			VIDVIE<sup class="text-[0.5em]">&reg;</sup>
 		</a>
 
 		<!-- Desktop Nav -->
@@ -35,9 +34,9 @@
 			{#each navLinks as link}
 				<a
 					href={link.href}
-					class="rounded-lg px-3 py-2 text-sm font-medium transition-colors {isActive(link.href)
-						? 'text-brand-600 bg-brand-50'
-						: 'text-surface-600 hover:text-surface-900 hover:bg-surface-50'}"
+					class="rounded-full px-4 py-2 text-sm font-medium transition-colors {isActive(link.href)
+						? 'text-brand-900 bg-brand-300/40'
+						: 'text-surface-700 hover:text-brand-900 hover:bg-brand-300/20'}"
 				>
 					{link.label}
 				</a>
@@ -45,17 +44,28 @@
 		</nav>
 
 		<!-- Right side -->
-		<div class="flex items-center gap-3">
+		<div class="flex items-center gap-2">
+			<!-- Search -->
+			<a
+				href="/shop"
+				class="rounded-full p-2 text-surface-700 transition-colors hover:bg-brand-300/20 hover:text-brand-900"
+				aria-label="Search"
+			>
+				<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+				</svg>
+			</a>
+
 			<!-- Cart -->
 			<a
 				href="/cart"
-				class="relative rounded-lg p-2 text-surface-600 hover:bg-surface-50 hover:text-surface-900"
+				class="relative rounded-full p-2 text-surface-700 transition-colors hover:bg-brand-300/20 hover:text-brand-900"
 			>
 				<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 					<path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
 				</svg>
 				{#if cartCount > 0}
-					<span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-brand-600 text-xs font-medium text-white">
+					<span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-brand-400 text-xs font-medium text-brand-900">
 						{cartCount > 99 ? '99+' : cartCount}
 					</span>
 				{/if}
@@ -63,20 +73,20 @@
 
 			<!-- Auth -->
 			{#if user}
-				<a href="/account" class="hidden text-sm text-surface-600 hover:text-surface-900 md:block">
+				<a href="/account" class="hidden rounded-full px-3 py-1.5 text-sm text-surface-700 hover:text-brand-900 md:block">
 					{user.name}
 				</a>
 			{:else}
 				<div class="hidden md:block">
-					<Button variant="outline" size="sm">
-						<a href="/login">Sign In</a>
-					</Button>
+					<a href="/login">
+						<Button variant="outline" size="sm">Sign In</Button>
+					</a>
 				</div>
 			{/if}
 
 			<!-- Mobile menu button -->
 			<button
-				class="rounded-lg p-2 text-surface-600 hover:bg-surface-50 md:hidden"
+				class="rounded-full p-2 text-surface-700 hover:bg-brand-300/20 md:hidden"
 				onclick={() => (mobileMenuOpen = !mobileMenuOpen)}
 			>
 				{#if mobileMenuOpen}
@@ -94,14 +104,14 @@
 
 	<!-- Mobile menu -->
 	{#if mobileMenuOpen}
-		<div class="border-t border-surface-200 bg-white md:hidden">
+		<div class="border-t border-surface-300/50 bg-brand-200 md:hidden">
 			<div class="space-y-1 px-4 py-3">
 				{#each navLinks as link}
 					<a
 						href={link.href}
-						class="block rounded-lg px-3 py-2 text-sm font-medium {isActive(link.href)
-							? 'text-brand-600 bg-brand-50'
-							: 'text-surface-600 hover:bg-surface-50'}"
+						class="block rounded-full px-4 py-2 text-sm font-medium {isActive(link.href)
+							? 'text-brand-900 bg-brand-300/40'
+							: 'text-surface-700 hover:bg-brand-300/20'}"
 						onclick={() => (mobileMenuOpen = false)}
 					>
 						{link.label}
@@ -110,7 +120,7 @@
 				{#if !user}
 					<a
 						href="/login"
-						class="block rounded-lg px-3 py-2 text-sm font-medium text-brand-600"
+						class="block rounded-full px-4 py-2 text-sm font-medium text-brand-900"
 						onclick={() => (mobileMenuOpen = false)}
 					>
 						Sign In
@@ -118,7 +128,7 @@
 				{:else}
 					<a
 						href="/account"
-						class="block rounded-lg px-3 py-2 text-sm font-medium text-surface-600"
+						class="block rounded-full px-4 py-2 text-sm font-medium text-surface-700"
 						onclick={() => (mobileMenuOpen = false)}
 					>
 						My Account

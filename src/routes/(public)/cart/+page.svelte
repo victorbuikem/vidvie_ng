@@ -28,7 +28,7 @@
 </svelte:head>
 
 <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-	<h1 class="text-3xl font-bold text-surface-900">Shopping Cart</h1>
+	<h1 class="font-heading text-3xl font-medium text-surface-900">Shopping Cart</h1>
 
 	{#if items.length === 0}
 		<div class="mt-12 text-center">
@@ -56,7 +56,7 @@
 						<div class="flex flex-1 flex-col justify-between">
 							<div class="flex justify-between">
 								<div>
-									<a href="/shop/{item.product.slug}" class="font-medium text-surface-900 hover:text-brand-600">
+									<a href="/shop/{item.product.slug}" class="font-medium text-surface-900 hover:text-brand-400">
 										{item.product.name}
 									</a>
 									<p class="text-sm text-surface-400">{item.product.category?.name}</p>

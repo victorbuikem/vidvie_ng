@@ -31,11 +31,11 @@
 	};
 </script>
 
-<aside class="flex h-screen w-64 flex-col border-r border-surface-200 bg-white">
+<aside class="flex h-screen w-64 flex-col border-r border-surface-300 bg-surface-100">
 	<!-- Logo -->
-	<div class="flex h-16 items-center border-b border-surface-200 px-6">
-		<a href="/admin" class="text-xl font-bold text-brand-600">
-			Vidvie <span class="text-sm font-normal text-surface-400">Admin</span>
+	<div class="flex h-16 items-center border-b border-surface-300 px-6">
+		<a href="/admin" class="font-heading text-xl font-semibold tracking-wider text-brand-900">
+			VIDVIE <span class="text-sm font-normal text-surface-400">Admin</span>
 		</a>
 	</div>
 
@@ -45,8 +45,8 @@
 			<a
 				href={item.href}
 				class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors {isActive(item.href, item.exact)
-					? 'bg-brand-50 text-brand-700'
-					: 'text-surface-600 hover:bg-surface-50 hover:text-surface-900'}"
+					? 'bg-brand-300/30 text-brand-900'
+					: 'text-surface-600 hover:bg-brand-300/15 hover:text-surface-900'}"
 			>
 				<svg class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
 					<path stroke-linecap="round" stroke-linejoin="round" d={item.icon} />

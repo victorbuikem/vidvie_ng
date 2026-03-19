@@ -67,7 +67,7 @@
 				<div class="mt-4 flex gap-2">
 					{#each product.images as image, i}
 						<button
-							class="h-20 w-20 overflow-hidden rounded-lg border-2 transition-colors {i === selectedImage ? 'border-brand-600' : 'border-surface-200 hover:border-surface-300'}"
+							class="h-20 w-20 overflow-hidden rounded-lg border-2 transition-colors {i === selectedImage ? 'border-brand-400' : 'border-surface-200 hover:border-surface-300'}"
 							onclick={() => (selectedImage = i)}
 						>
 							<img src={image} alt="{product.name} thumbnail {i + 1}" class="h-full w-full object-cover" />
@@ -82,11 +82,11 @@
 			{#if product.category}
 				<p class="text-sm text-surface-400">{product.category.name}</p>
 			{/if}
-			<h1 class="mt-1 text-3xl font-bold text-surface-900">{product.name}</h1>
+			<h1 class="mt-1 font-heading text-3xl font-medium text-surface-900">{product.name}</h1>
 
 			<div class="mt-4 flex items-center gap-3">
 				{#if product.discountPrice}
-					<span class="text-3xl font-bold text-brand-600">{formatPrice(product.discountPrice)}</span>
+					<span class="text-3xl font-bold text-brand-400">{formatPrice(product.discountPrice)}</span>
 					<span class="text-xl text-surface-400 line-through">{formatPrice(product.price)}</span>
 					<Badge variant="danger">
 						{Math.round(((product.price - product.discountPrice) / product.price) * 100)}% OFF
@@ -166,21 +166,21 @@
 	<!-- Related Products -->
 	{#if relatedProducts.length > 0}
 		<section class="mt-16">
-			<h2 class="text-xl font-bold text-surface-900">Related Products</h2>
+			<h2 class="font-heading text-xl font-medium text-surface-900">Related Products</h2>
 			<div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
 				{#each relatedProducts as rp}
 					<a href="/shop/{rp.slug}" class="group">
 						<Card padding={false}>
-							<div class="aspect-square overflow-hidden rounded-t-xl bg-surface-100">
+							<div class="aspect-square overflow-hidden rounded-t-[1.2rem] bg-surface-100">
 								{#if rp.images[0]}
 									<img src={rp.images[0]} alt={rp.name} class="h-full w-full object-cover transition-transform group-hover:scale-105" />
 								{/if}
 							</div>
 							<div class="p-4">
-								<h3 class="font-medium text-surface-900 group-hover:text-brand-600">{rp.name}</h3>
+								<h3 class="font-medium text-surface-900 group-hover:text-brand-400">{rp.name}</h3>
 								<div class="mt-1">
 									{#if rp.discountPrice}
-										<span class="font-semibold text-brand-600">{formatPrice(rp.discountPrice)}</span>
+										<span class="font-semibold text-brand-400">{formatPrice(rp.discountPrice)}</span>
 										<span class="ml-1 text-sm text-surface-400 line-through">{formatPrice(rp.price)}</span>
 									{:else}
 										<span class="font-semibold text-surface-900">{formatPrice(rp.price)}</span>

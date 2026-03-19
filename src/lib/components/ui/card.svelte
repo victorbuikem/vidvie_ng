@@ -11,7 +11,7 @@
 </script>
 
 <div
-	class="rounded-xl border border-surface-200 bg-white shadow-sm {padding ? 'p-6' : ''} {className}"
+	class="rounded-[1.2rem] bg-surface-100 {padding ? 'p-6' : ''} {className}"
 >
 	{@render children()}
 </div>

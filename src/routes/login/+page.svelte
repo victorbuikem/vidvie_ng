@@ -13,11 +13,11 @@
 	<title>{mode === 'signin' ? 'Sign In' : 'Create Account'} — Vidvie</title>
 </svelte:head>
 
-<div class="flex min-h-screen items-center justify-center bg-surface-50 px-4">
+<div class="flex min-h-screen items-center justify-center bg-brand-200 px-4">
 	<div class="w-full max-w-sm">
 		<div class="text-center">
-			<a href="/" class="text-2xl font-bold text-brand-600">Vidvie</a>
-			<h1 class="mt-4 text-xl font-semibold text-surface-900">
+			<a href="/" class="font-heading text-2xl font-semibold tracking-wider text-brand-900">VIDVIE<sup class="text-[0.5em]">&reg;</sup></a>
+			<h1 class="mt-4 font-heading text-xl font-medium text-surface-900">
 				{mode === 'signin' ? 'Welcome back' : 'Create your account'}
 			</h1>
 		</div>
@@ -64,12 +64,12 @@
 			<div class="mt-4 text-center text-sm text-surface-500">
 				{#if mode === 'signin'}
 					Don't have an account?
-					<button class="font-medium text-brand-600 hover:text-brand-700" onclick={() => (mode = 'signup')}>
+					<button class="font-medium text-brand-400 hover:text-brand-500" onclick={() => (mode = 'signup')}>
 						Sign up
 					</button>
 				{:else}
 					Already have an account?
-					<button class="font-medium text-brand-600 hover:text-brand-700" onclick={() => (mode = 'signin')}>
+					<button class="font-medium text-brand-400 hover:text-brand-500" onclick={() => (mode = 'signin')}>
 						Sign in
 					</button>
 				{/if}

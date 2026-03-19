@@ -3,19 +3,37 @@ import { redirect } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { orders } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
-import { verifyTransaction } from '$lib/server/paystack';
+import { verifyTransaction } from '$lib/server/flutterwave';
 import { clearCart } from '$lib/server/cart';
 
 export const load: PageServerLoad = async ({ url, locals, cookies }) => {
-	const reference = url.searchParams.get('reference');
+	const status = url.searchParams.get('status');
+	const txRef = url.searchParams.get('tx_ref');
+	const transactionId = url.searchParams.get('transaction_id');
 
-	if (!reference) {
+	if (!txRef || !transactionId) {
 		redirect(303, '/');
+	}
+
+	// If Flutterwave reports non-successful status in redirect
+	if (status !== 'successful') {
+		const order = await db.query.orders.findFirst({
+			where: eq(orders.paymentReference, txRef)
+		});
+
+		if (order && order.paymentStatus === 'pending') {
+			await db
+				.update(orders)
+				.set({ paymentStatus: 'failed', updatedAt: new Date() })
+				.where(eq(orders.id, order.id));
+		}
+
+		return { status: 'failed' as const, message: 'Payment was not successful' };
 	}
 
 	// Find the order
 	const order = await db.query.orders.findFirst({
-		where: eq(orders.paymentReference, reference),
+		where: eq(orders.paymentReference, txRef),
 		with: { items: { with: { product: true } } }
 	});
 
@@ -29,9 +47,9 @@ export const load: PageServerLoad = async ({ url, locals, cookies }) => {
 	}
 
 	try {
-		const result = await verifyTransaction(reference);
+		const result = await verifyTransaction(transactionId);
 
-		if (result.data.status === 'success') {
+		if (result.data.status === 'successful' && result.data.tx_ref === txRef) {
 			await db
 				.update(orders)
 				.set({

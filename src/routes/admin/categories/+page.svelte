@@ -7,6 +7,7 @@
 	import Textarea from '$lib/components/ui/textarea.svelte';
 	import Dialog from '$lib/components/ui/dialog.svelte';
 	import Badge from '$lib/components/ui/badge.svelte';
+	import ImageUpload from '$lib/components/ui/image-upload.svelte';
 
 	let { data } = $props();
 
@@ -112,8 +113,8 @@
 			<Textarea id="create-desc" name="description" rows={2} placeholder="Brief description..." />
 		</div>
 		<div>
-			<label for="create-image" class="mb-1 block text-sm font-medium text-surface-700">Image URL</label>
-			<Input id="create-image" name="image" placeholder="https://..." />
+			<label class="mb-1 block text-sm font-medium text-surface-700">Category Image</label>
+			<ImageUpload name="image" multiple={false} maxFiles={1} />
 		</div>
 		<div class="flex justify-end gap-2">
 			<Button variant="outline" onclick={() => (createDialogOpen = false)}>Cancel</Button>
@@ -152,8 +153,8 @@
 				<Textarea id="edit-desc" name="description" rows={2} value={editingCategory.description ?? ''} />
 			</div>
 			<div>
-				<label for="edit-image" class="mb-1 block text-sm font-medium text-surface-700">Image URL</label>
-				<Input id="edit-image" name="image" value={editingCategory.image ?? ''} />
+				<label class="mb-1 block text-sm font-medium text-surface-700">Category Image</label>
+				<ImageUpload name="image" multiple={false} maxFiles={1} value={editingCategory.image ? [editingCategory.image] : []} />
 			</div>
 			<div class="flex justify-end gap-2">
 				<Button variant="outline" onclick={() => (editDialogOpen = false)}>Cancel</Button>

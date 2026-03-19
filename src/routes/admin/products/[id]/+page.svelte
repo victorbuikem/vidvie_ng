@@ -4,6 +4,7 @@
 	import Card from '$lib/components/ui/card.svelte';
 	import Input from '$lib/components/ui/input.svelte';
 	import Textarea from '$lib/components/ui/textarea.svelte';
+	import ImageUpload from '$lib/components/ui/image-upload.svelte';
 
 	let { data, form } = $props();
 	let { product } = $derived(data);
@@ -56,7 +57,7 @@
 						id="categoryId"
 						name="categoryId"
 						required
-						class="block w-full rounded-lg border border-surface-300 bg-white px-3 py-2 text-sm text-surface-900 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 focus:outline-none"
+						class="block w-full rounded-lg border border-surface-300 bg-surface-50 px-3 py-2 text-sm text-surface-900 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 focus:outline-none"
 					>
 						<option value="">Select category...</option>
 						{#each data.categories as category}
@@ -71,9 +72,9 @@
 			</div>
 
 			<div>
-				<label for="images" class="mb-1 block text-sm font-medium text-surface-700">Image URLs (one per line)</label>
-				<Textarea id="images" name="images" rows={3} value={product.images.join('\n')} />
-				<p class="mt-1 text-xs text-surface-400">Enter each image URL on a new line. First image will be the primary image.</p>
+				<label class="mb-1 block text-sm font-medium text-surface-700">Product Images</label>
+				<ImageUpload name="images" multiple={true} maxFiles={5} value={product.images} />
+				<p class="mt-1 text-xs text-surface-400">Upload up to 5 images. First image will be the primary image.</p>
 			</div>
 
 			<div>

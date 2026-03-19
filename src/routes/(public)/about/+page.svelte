@@ -7,7 +7,7 @@
 </svelte:head>
 
 <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
-	<h1 class="text-4xl font-bold text-surface-900">About Vidvie</h1>
+	<h1 class="font-heading text-4xl font-medium text-surface-900">About VIDVIE</h1>
 
 	<div class="prose prose-lg mt-8 text-surface-600">
 		<p>

@@ -5,7 +5,7 @@ import { db } from '$lib/server/db';
 import { orders, orderItems, products } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { getCartWithItems, clearCart } from '$lib/server/cart';
-import { initializeTransaction } from '$lib/server/paystack';
+import { initializePayment } from '$lib/server/flutterwave';
 import { createId } from '$lib/server/db/id';
 import { ulid } from 'ulid';
 import { env } from '$env/dynamic/private';
@@ -121,19 +121,20 @@ export const actions: Actions = {
 				.where(eq(products.id, item.productId));
 		}
 
-		// Initialize Paystack transaction
+		// Initialize Flutterwave payment
 		const origin = env.ORIGIN || url.origin;
-		const callbackUrl = `${origin}/checkout/verify`;
+		const redirectUrl = `${origin}/checkout/verify`;
 
-		const transaction = await initializeTransaction({
+		const payment = await initializePayment({
 			email: locals.user.email,
 			amount: total,
-			reference: paymentReference,
-			callbackUrl,
-			metadata: { orderId }
+			txRef: paymentReference,
+			redirectUrl,
+			customerName: result.data.name,
+			customerPhone: result.data.phone
 		});
 
-		// Redirect to Paystack payment page
-		redirect(303, transaction.data.authorization_url);
+		// Redirect to Flutterwave payment page
+		redirect(303, payment.data.link);
 	}
 };

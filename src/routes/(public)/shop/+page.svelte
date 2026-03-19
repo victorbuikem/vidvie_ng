@@ -48,7 +48,7 @@
 </svelte:head>
 
 <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-	<h1 class="text-3xl font-bold text-surface-900">Shop</h1>
+	<h1 class="font-heading text-3xl font-medium text-surface-900">Catalog</h1>
 
 	<div class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-4">
 		<!-- Sidebar Filters -->
@@ -67,14 +67,14 @@
 				<h3 class="text-sm font-semibold text-surface-900">Categories</h3>
 				<div class="mt-2 space-y-1">
 					<button
-						class="block w-full rounded-lg px-3 py-1.5 text-left text-sm transition-colors {!data.filters.category ? 'bg-brand-50 text-brand-700 font-medium' : 'text-surface-600 hover:bg-surface-50'}"
+						class="block w-full rounded-lg px-3 py-1.5 text-left text-sm transition-colors {!data.filters.category ? 'bg-brand-300/30 text-brand-900 font-medium' : 'text-surface-600 hover:bg-surface-50'}"
 						onclick={() => updateFilter('category', null)}
 					>
 						All Categories
 					</button>
 					{#each data.categories as category}
 						<button
-							class="block w-full rounded-lg px-3 py-1.5 text-left text-sm transition-colors {data.filters.category === category.slug ? 'bg-brand-50 text-brand-700 font-medium' : 'text-surface-600 hover:bg-surface-50'}"
+							class="block w-full rounded-lg px-3 py-1.5 text-left text-sm transition-colors {data.filters.category === category.slug ? 'bg-brand-300/30 text-brand-900 font-medium' : 'text-surface-600 hover:bg-surface-50'}"
 							onclick={() => updateFilter('category', category.slug)}
 						>
 							{category.name}
@@ -93,7 +93,7 @@
 						{ value: 'price-desc', label: 'Price: High to Low' }
 					] as option}
 						<button
-							class="block w-full rounded-lg px-3 py-1.5 text-left text-sm transition-colors {data.filters.sort === option.value ? 'bg-brand-50 text-brand-700 font-medium' : 'text-surface-600 hover:bg-surface-50'}"
+							class="block w-full rounded-lg px-3 py-1.5 text-left text-sm transition-colors {data.filters.sort === option.value ? 'bg-brand-300/30 text-brand-900 font-medium' : 'text-surface-600 hover:bg-surface-50'}"
 							onclick={() => updateFilter('sort', option.value)}
 						>
 							{option.label}
@@ -126,7 +126,7 @@
 					{#each data.products as product}
 						<a href="/shop/{product.slug}" class="group">
 							<Card padding={false}>
-								<div class="relative aspect-square overflow-hidden rounded-t-xl bg-surface-100">
+								<div class="relative aspect-square overflow-hidden rounded-t-[1.2rem] bg-surface-100">
 									{#if product.images[0]}
 										<img
 											src={product.images[0]}
@@ -147,10 +147,10 @@
 								</div>
 								<div class="p-4">
 									<p class="text-xs text-surface-400">{product.category?.name}</p>
-									<h3 class="mt-1 font-medium text-surface-900 group-hover:text-brand-600">{product.name}</h3>
+									<h3 class="mt-1 font-medium text-surface-900 group-hover:text-brand-400">{product.name}</h3>
 									<div class="mt-2">
 										{#if product.discountPrice}
-											<span class="font-semibold text-brand-600">{formatPrice(product.discountPrice)}</span>
+											<span class="font-semibold text-brand-400">{formatPrice(product.discountPrice)}</span>
 											<span class="ml-1 text-sm text-surface-400 line-through">{formatPrice(product.price)}</span>
 										{:else}
 											<span class="font-semibold text-surface-900">{formatPrice(product.price)}</span>

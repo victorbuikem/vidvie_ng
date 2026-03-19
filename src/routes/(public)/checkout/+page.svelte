@@ -31,7 +31,7 @@
 </svelte:head>
 
 <div class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
-	<h1 class="text-3xl font-bold text-surface-900">Checkout</h1>
+	<h1 class="font-heading text-3xl font-medium text-surface-900">Checkout</h1>
 
 	{#if form?.message}
 		<div class="mt-4 rounded-lg border border-danger-500 bg-red-50 p-4 text-sm text-danger-600">
@@ -94,7 +94,7 @@
 								id="state"
 								name="state"
 								required
-								class="block w-full rounded-lg border border-surface-300 bg-white px-3 py-2 text-sm text-surface-900 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 focus:outline-none"
+								class="block w-full rounded-lg border border-surface-300 bg-surface-50 px-3 py-2 text-sm text-surface-900 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 focus:outline-none"
 							>
 								<option value="">Select state...</option>
 								{#each nigerianStates as state}

@@ -3,23 +3,22 @@ import type { RequestHandler } from './$types';
 import { db } from '$lib/server/db';
 import { orders } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
-import { validateWebhookSignature } from '$lib/server/paystack';
+import { validateWebhookHash } from '$lib/server/flutterwave';
 
 export const POST: RequestHandler = async ({ request }) => {
-	const body = await request.text();
-	const signature = request.headers.get('x-paystack-signature');
+	const verifHash = request.headers.get('verif-hash');
 
-	if (!signature || !validateWebhookSignature(body, signature)) {
-		return json({ error: 'Invalid signature' }, { status: 400 });
+	if (!verifHash || !validateWebhookHash(verifHash)) {
+		return json({ error: 'Invalid hash' }, { status: 401 });
 	}
 
-	const event = JSON.parse(body);
+	const event = await request.json();
 
-	if (event.event === 'charge.success') {
-		const reference = event.data.reference as string;
+	if (event.event === 'charge.completed' && event.data?.status === 'successful') {
+		const txRef = event.data.tx_ref as string;
 
 		const order = await db.query.orders.findFirst({
-			where: eq(orders.paymentReference, reference)
+			where: eq(orders.paymentReference, txRef)
 		});
 
 		if (order && order.paymentStatus !== 'success') {

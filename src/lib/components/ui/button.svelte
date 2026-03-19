@@ -28,13 +28,13 @@
 
 	const variantClasses: Record<Variant, string> = {
 		primary:
-			'bg-brand-600 text-white hover:bg-brand-700 focus-visible:ring-brand-500',
+			'bg-brand-900 text-surface-100 hover:bg-surface-800 focus-visible:ring-brand-400',
 		secondary:
-			'bg-surface-100 text-surface-900 hover:bg-surface-200 focus-visible:ring-surface-400',
+			'bg-brand-200 text-brand-900 hover:bg-brand-300 focus-visible:ring-brand-400',
 		outline:
-			'border border-surface-300 text-surface-700 hover:bg-surface-50 focus-visible:ring-brand-500',
+			'border border-brand-900 text-brand-900 hover:bg-brand-200 focus-visible:ring-brand-400',
 		ghost:
-			'text-surface-700 hover:bg-surface-100 focus-visible:ring-surface-400',
+			'text-brand-900 hover:bg-brand-200 focus-visible:ring-brand-400',
 		danger:
 			'bg-danger-500 text-white hover:bg-danger-600 focus-visible:ring-danger-500'
 	};
@@ -50,7 +50,7 @@
 	{disabled}
 	{type}
 	{onclick}
-	class="inline-flex items-center justify-center rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 {variantClasses[variant]} {sizeClasses[size]} {className}"
+	class="inline-flex items-center justify-center rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 {variantClasses[variant]} {sizeClasses[size]} {className}"
 	{...restProps}
 >
 	{@render children()}
