@@ -1,9 +1,21 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { getPresignedUploadUrl, getPublicUrl } from '$lib/server/storage';
+import { getPresignedUploadUrl, getPublicUrl, configureBucketCors } from '$lib/server/storage';
 import { ulid } from 'ulid';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+
+let corsConfigured = false;
+
+async function ensureCors() {
+	if (corsConfigured) return;
+	try {
+		await configureBucketCors();
+		corsConfigured = true;
+	} catch {
+		// CORS may already be set or not supported — continue anyway
+	}
+}
 
 export const POST: RequestHandler = async ({ request, locals }) => {
 	if (!locals.user || locals.user.role !== 'admin') {
@@ -19,6 +31,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	if (!ALLOWED_TYPES.includes(contentType)) {
 		return json({ error: 'File type not allowed. Use JPEG, PNG, WebP, or GIF.' }, { status: 400 });
 	}
+
+	await ensureCors();
 
 	// Sanitize filename: lowercase, keep alphanumeric + dots + hyphens
 	const ext = filename.split('.').pop()?.toLowerCase() ?? 'jpg';

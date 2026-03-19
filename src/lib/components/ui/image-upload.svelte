@@ -90,6 +90,11 @@
 		value = value.filter((_, i) => i !== index);
 	}
 
+	function makePrimary(index: number) {
+		const item = value[index];
+		value = [item, ...value.filter((_, i) => i !== index)];
+	}
+
 	function handleDrop(e: DragEvent) {
 		e.preventDefault();
 		dragOver = false;
@@ -170,6 +175,7 @@
 			{#each value as url, i}
 				<div class="group relative aspect-square overflow-hidden rounded-lg border border-surface-200">
 					<img src={url} alt="Upload {i + 1}" class="h-full w-full object-cover" />
+					<!-- Remove button -->
 					<button
 						type="button"
 						onclick={() => removeImage(i)}
@@ -181,6 +187,15 @@
 					</button>
 					{#if i === 0 && multiple}
 						<span class="absolute bottom-1 left-1 rounded bg-black/60 px-1.5 py-0.5 text-[10px] font-medium text-white">Primary</span>
+					{:else if multiple}
+						<!-- Make Primary button -->
+						<button
+							type="button"
+							onclick={() => makePrimary(i)}
+							class="absolute bottom-1 left-1 rounded bg-black/60 px-1.5 py-0.5 text-[10px] font-medium text-white opacity-0 transition-opacity hover:bg-black/80 group-hover:opacity-100"
+						>
+							Make Primary
+						</button>
 					{/if}
 				</div>
 			{/each}

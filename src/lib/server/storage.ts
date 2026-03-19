@@ -59,3 +59,22 @@ export function getPublicUrl(key: string): string {
 	const bucket = getBucketName();
 	return `${endpoint}/${bucket}/${key}`;
 }
+
+export async function configureBucketCors(): Promise<void> {
+	const client = getClient();
+	await client.send(
+		new PutBucketCorsCommand({
+			Bucket: getBucketName(),
+			CORSConfiguration: {
+				CORSRules: [
+					{
+						AllowedOrigins: ['*'],
+						AllowedMethods: ['GET', 'PUT'],
+						AllowedHeaders: ['*'],
+						MaxAgeSeconds: 3600
+					}
+				]
+			}
+		})
+	);
+}

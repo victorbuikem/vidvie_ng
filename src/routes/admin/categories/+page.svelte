@@ -14,6 +14,8 @@
 	let createDialogOpen = $state(false);
 	let editDialogOpen = $state(false);
 	let editingCategory = $state<(typeof data.categories)[0] | null>(null);
+	let creatingCategory = $state(false);
+	let updatingCategory = $state(false);
 
 	const openEdit = (category: (typeof data.categories)[0]) => {
 		editingCategory = category;
@@ -87,79 +89,87 @@
 
 <!-- Create Dialog -->
 <Dialog bind:open={createDialogOpen} title="New Category">
-	<form
-		method="POST"
-		action="?/create"
-		use:enhance={() => {
-			return async ({ result, update }) => {
-				if (result.type === 'success') {
-					toast.success('Category created');
-					createDialogOpen = false;
-					await update();
-				} else {
-					toast.error('Failed to create category');
-					await update();
-				}
-			};
-		}}
-		class="space-y-4"
-	>
-		<div>
-			<label for="create-name" class="mb-1 block text-sm font-medium text-surface-700">Name</label>
-			<Input id="create-name" name="name" required placeholder="e.g. Headphones" />
-		</div>
-		<div>
-			<label for="create-desc" class="mb-1 block text-sm font-medium text-surface-700">Description</label>
-			<Textarea id="create-desc" name="description" rows={2} placeholder="Brief description..." />
-		</div>
-		<div>
-			<label class="mb-1 block text-sm font-medium text-surface-700">Category Image</label>
-			<ImageUpload name="image" multiple={false} maxFiles={1} />
-		</div>
-		<div class="flex justify-end gap-2">
-			<Button variant="outline" onclick={() => (createDialogOpen = false)}>Cancel</Button>
-			<Button type="submit">Create</Button>
-		</div>
-	</form>
-</Dialog>
-
-<!-- Edit Dialog -->
-<Dialog bind:open={editDialogOpen} title="Edit Category">
-	{#if editingCategory}
+	{#key createDialogOpen}
 		<form
 			method="POST"
-			action="?/update"
+			action="?/create"
 			use:enhance={() => {
+				creatingCategory = true;
 				return async ({ result, update }) => {
+					creatingCategory = false;
 					if (result.type === 'success') {
-						toast.success('Category updated');
-						editDialogOpen = false;
+						toast.success('Category created');
+						createDialogOpen = false;
 						await update();
 					} else {
-						toast.error('Failed to update category');
+						toast.error('Failed to create category');
 						await update();
 					}
 				};
 			}}
 			class="space-y-4"
 		>
-			<input type="hidden" name="id" value={editingCategory.id} />
 			<div>
-				<label for="edit-name" class="mb-1 block text-sm font-medium text-surface-700">Name</label>
-				<Input id="edit-name" name="name" required value={editingCategory.name} />
+				<label for="create-name" class="mb-1 block text-sm font-medium text-surface-700">Name</label>
+				<Input id="create-name" name="name" required placeholder="e.g. Headphones" />
 			</div>
 			<div>
-				<label for="edit-desc" class="mb-1 block text-sm font-medium text-surface-700">Description</label>
-				<Textarea id="edit-desc" name="description" rows={2} value={editingCategory.description ?? ''} />
+				<label for="create-desc" class="mb-1 block text-sm font-medium text-surface-700">Description</label>
+				<Textarea id="create-desc" name="description" rows={2} placeholder="Brief description..." />
 			</div>
 			<div>
 				<label class="mb-1 block text-sm font-medium text-surface-700">Category Image</label>
-				<ImageUpload name="image" multiple={false} maxFiles={1} value={editingCategory.image ? [editingCategory.image] : []} />
+				<ImageUpload name="image" multiple={false} maxFiles={1} />
 			</div>
 			<div class="flex justify-end gap-2">
-				<Button variant="outline" onclick={() => (editDialogOpen = false)}>Cancel</Button>
-				<Button type="submit">Save</Button>
+				<Button variant="outline" onclick={() => (createDialogOpen = false)}>Cancel</Button>
+				<Button type="submit" disabled={creatingCategory}>{creatingCategory ? 'Creating...' : 'Create'}</Button>
 			</div>
 		</form>
+	{/key}
+</Dialog>
+
+<!-- Edit Dialog -->
+<Dialog bind:open={editDialogOpen} title="Edit Category">
+	{#if editingCategory}
+		{#key editingCategory.id}
+			<form
+				method="POST"
+				action="?/update"
+				use:enhance={() => {
+					updatingCategory = true;
+					return async ({ result, update }) => {
+						updatingCategory = false;
+						if (result.type === 'success') {
+							toast.success('Category updated');
+							editDialogOpen = false;
+							await update();
+						} else {
+							toast.error('Failed to update category');
+							await update();
+						}
+					};
+				}}
+				class="space-y-4"
+			>
+				<input type="hidden" name="id" value={editingCategory.id} />
+				<div>
+					<label for="edit-name" class="mb-1 block text-sm font-medium text-surface-700">Name</label>
+					<Input id="edit-name" name="name" required value={editingCategory.name} />
+				</div>
+				<div>
+					<label for="edit-desc" class="mb-1 block text-sm font-medium text-surface-700">Description</label>
+					<Textarea id="edit-desc" name="description" rows={2} value={editingCategory.description ?? ''} />
+				</div>
+				<div>
+					<label class="mb-1 block text-sm font-medium text-surface-700">Category Image</label>
+					<ImageUpload name="image" multiple={false} maxFiles={1} value={editingCategory.image ? [editingCategory.image] : []} />
+				</div>
+				<div class="flex justify-end gap-2">
+					<Button variant="outline" onclick={() => (editDialogOpen = false)}>Cancel</Button>
+					<Button type="submit" disabled={updatingCategory}>{updatingCategory ? 'Saving...' : 'Save'}</Button>
+				</div>
+			</form>
+		{/key}
 	{/if}
 </Dialog>

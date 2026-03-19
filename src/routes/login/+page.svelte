@@ -7,6 +7,7 @@
 	let { data, form } = $props();
 
 	let mode = $state<'signin' | 'signup'>(form?.mode ?? 'signin');
+	let submitting = $state(false);
 </script>
 
 <svelte:head>
@@ -30,7 +31,13 @@
 			{/if}
 
 			{#if mode === 'signin'}
-				<form method="POST" action="?/signin" use:enhance class="space-y-4">
+				<form method="POST" action="?/signin" use:enhance={() => {
+				submitting = true;
+				return async ({ update }) => {
+					submitting = false;
+					await update();
+				};
+			}} class="space-y-4">
 					<input type="hidden" name="redirect" value={data.redirectTo} />
 					<div>
 						<label for="email" class="mb-1 block text-sm font-medium text-surface-700">Email</label>
@@ -40,10 +47,16 @@
 						<label for="password" class="mb-1 block text-sm font-medium text-surface-700">Password</label>
 						<Input id="password" name="password" type="password" required placeholder="Your password" />
 					</div>
-					<Button type="submit" class="w-full">Sign In</Button>
+					<Button type="submit" class="w-full" disabled={submitting}>{submitting ? 'Signing in...' : 'Sign In'}</Button>
 				</form>
 			{:else}
-				<form method="POST" action="?/signup" use:enhance class="space-y-4">
+				<form method="POST" action="?/signup" use:enhance={() => {
+				submitting = true;
+				return async ({ update }) => {
+					submitting = false;
+					await update();
+				};
+			}} class="space-y-4">
 					<input type="hidden" name="redirect" value={data.redirectTo} />
 					<div>
 						<label for="name" class="mb-1 block text-sm font-medium text-surface-700">Name</label>
@@ -57,7 +70,7 @@
 						<label for="password" class="mb-1 block text-sm font-medium text-surface-700">Password</label>
 						<Input id="password" name="password" type="password" required placeholder="At least 8 characters" />
 					</div>
-					<Button type="submit" class="w-full">Create Account</Button>
+					<Button type="submit" class="w-full" disabled={submitting}>{submitting ? 'Creating account...' : 'Create Account'}</Button>
 				</form>
 			{/if}
 

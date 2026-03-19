@@ -8,6 +8,7 @@
 
 	let { data, form } = $props();
 	let { product } = $derived(data);
+	let submitting = $state(false);
 </script>
 
 <svelte:head>
@@ -25,7 +26,13 @@
 	</div>
 
 	<Card class="mt-6">
-		<form method="POST" use:enhance class="space-y-4">
+		<form method="POST" use:enhance={() => {
+			submitting = true;
+			return async ({ update }) => {
+				submitting = false;
+				await update();
+			};
+		}} class="space-y-4">
 			<div>
 				<label for="name" class="mb-1 block text-sm font-medium text-surface-700">Name</label>
 				<Input id="name" name="name" required value={form?.data?.name ?? product.name} />
@@ -91,7 +98,7 @@
 
 			<div class="flex justify-end gap-2 pt-4">
 				<a href="/admin/products"><Button variant="outline">Cancel</Button></a>
-				<Button type="submit">Save Changes</Button>
+				<Button type="submit" disabled={submitting}>{submitting ? 'Saving...' : 'Save Changes'}</Button>
 			</div>
 		</form>
 	</Card>
