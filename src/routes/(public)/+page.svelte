@@ -2,6 +2,7 @@
 	import Badge from '$lib/components/ui/badge.svelte';
 	import Button from '$lib/components/ui/button.svelte';
 	import Card from '$lib/components/ui/card.svelte';
+	import { proxyImageUrl } from '$lib/utils/image';
 
 	let { data } = $props();
 
@@ -108,7 +109,7 @@
 							<div class="relative aspect-square overflow-hidden rounded-t-[1.2rem] bg-brand-100">
 								{#if product.images[0]}
 									<img
-										src={product.images[0]}
+										src={proxyImageUrl(product.images[0])}
 										alt={product.name}
 										class="h-full w-full object-cover transition-transform group-hover:scale-105"
 									/>
@@ -148,7 +149,7 @@
 					>
 						{#if category.image}
 							<img
-								src={category.image}
+								src={proxyImageUrl(category.image)}
 								alt={category.name}
 								class="absolute inset-0 h-full w-full object-cover opacity-20"
 							/>
@@ -183,7 +184,7 @@
 							<div class="aspect-square overflow-hidden rounded-t-[1.2rem] bg-brand-100">
 								{#if product.images[0]}
 									<img
-										src={product.images[0]}
+										src={proxyImageUrl(product.images[0])}
 										alt={product.name}
 										class="h-full w-full object-cover transition-transform group-hover:scale-105"
 									/>

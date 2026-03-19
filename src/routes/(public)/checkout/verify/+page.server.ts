@@ -5,6 +5,7 @@ import { orders } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { verifyTransaction } from '$lib/server/flutterwave';
 import { clearCart } from '$lib/server/cart';
+import { sendOrderReceipt } from '$lib/server/email';
 
 export const load: PageServerLoad = async ({ url, locals, cookies }) => {
 	const status = url.searchParams.get('status');
@@ -69,6 +70,31 @@ export const load: PageServerLoad = async ({ url, locals, cookies }) => {
 				if (cart) {
 					await clearCart(cart.id);
 				}
+			}
+
+			// Send receipt email (non-blocking — don't fail the verification)
+			try {
+				const shipping = order.shippingAddress as {
+					name: string;
+					phone: string;
+					address: string;
+					city: string;
+					state: string;
+				};
+				await sendOrderReceipt({
+					to: locals.user?.email ?? '',
+					customerName: shipping.name,
+					orderId: order.id,
+					items: order.items.map((item) => ({
+						name: item.product.name,
+						quantity: item.quantity,
+						priceAtPurchase: item.priceAtPurchase
+					})),
+					total: order.total,
+					shippingAddress: shipping
+				});
+			} catch (emailError) {
+				console.error('Failed to send order receipt email:', emailError);
 			}
 
 			return { status: 'success' as const, order: { ...order, paymentStatus: 'success', status: 'confirmed' } };

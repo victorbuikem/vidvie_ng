@@ -1,11 +1,11 @@
 import type { PageServerLoad, Actions } from './$types';
-import { redirect, fail } from '@sveltejs/kit';
+import { redirect, fail, isRedirect } from '@sveltejs/kit';
 import { z } from 'zod';
 import { db } from '$lib/server/db';
 import { orders, orderItems, products } from '$lib/server/db/schema';
-import { eq } from 'drizzle-orm';
+import { eq, and, desc } from 'drizzle-orm';
 import { getCartWithItems, clearCart } from '$lib/server/cart';
-import { initializePayment } from '$lib/server/flutterwave';
+import { initializePayment, mapFlutterwaveErrorToFields } from '$lib/server/flutterwave';
 import { createId } from '$lib/server/db/id';
 import { ulid } from 'ulid';
 import { env } from '$env/dynamic/private';
@@ -35,10 +35,26 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
 		return sum + price * item.quantity;
 	}, 0);
 
+	// Load last successful order's shipping address for pre-fill
+	const lastOrder = await db.query.orders.findFirst({
+		where: and(eq(orders.userId, locals.user.id), eq(orders.paymentStatus, 'success')),
+		orderBy: [desc(orders.createdAt)],
+		columns: { shippingAddress: true }
+	});
+
+	const lastAddress = (lastOrder?.shippingAddress as {
+		name: string;
+		phone: string;
+		address: string;
+		city: string;
+		state: string;
+	}) ?? null;
+
 	return {
 		cart,
 		total,
-		user: locals.user
+		user: locals.user,
+		lastAddress
 	};
 };
 
@@ -125,16 +141,28 @@ export const actions: Actions = {
 		const origin = env.ORIGIN || url.origin;
 		const redirectUrl = `${origin}/checkout/verify`;
 
-		const payment = await initializePayment({
-			email: locals.user.email,
-			amount: total,
-			txRef: paymentReference,
-			redirectUrl,
-			customerName: result.data.name,
-			customerPhone: result.data.phone
-		});
+		try {
+			const payment = await initializePayment({
+				email: locals.user.email,
+				amount: total,
+				txRef: paymentReference,
+				redirectUrl,
+				customerName: result.data.name,
+				customerPhone: result.data.phone
+			});
 
-		// Redirect to Flutterwave payment page
-		redirect(303, payment.data.link);
+			redirect(303, payment.data.link);
+		} catch (err) {
+			if (isRedirect(err)) throw err;
+
+			const message = err instanceof Error ? err.message : 'Payment initialization failed';
+			const fieldErrors = mapFlutterwaveErrorToFields(message);
+
+			if (fieldErrors) {
+				return fail(400, { shipping: shippingData, errors: fieldErrors });
+			}
+
+			return fail(400, { shipping: shippingData, error: message });
+		}
 	}
 };

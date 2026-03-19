@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { toast } from 'svelte-sonner';
+	import { proxyImageUrl } from '$lib/utils/image';
 
 	interface Props {
 		value?: string[];
@@ -174,7 +175,7 @@
 		<div class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
 			{#each value as url, i}
 				<div class="group relative aspect-square overflow-hidden rounded-lg border border-surface-200">
-					<img src={url} alt="Upload {i + 1}" class="h-full w-full object-cover" />
+					<img src={proxyImageUrl(url)} alt="Upload {i + 1}" class="h-full w-full object-cover" />
 					<!-- Remove button -->
 					<button
 						type="button"

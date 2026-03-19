@@ -2,6 +2,41 @@ import { env } from '$env/dynamic/private';
 
 const FLUTTERWAVE_BASE_URL = 'https://api.flutterwave.com/v3';
 
+export class FlutterwaveError extends Error {
+	status: number;
+	data: unknown;
+
+	constructor(message: string, status: number, data: unknown) {
+		super(message);
+		this.name = 'FlutterwaveError';
+		this.status = status;
+		this.data = data;
+	}
+}
+
+type FieldErrors = Partial<Record<'name' | 'phone' | 'address' | 'city' | 'state' | 'email', string[]>>;
+
+export function mapFlutterwaveErrorToFields(message: string): FieldErrors | null {
+	const lower = message.toLowerCase();
+
+	const mappings: Array<{ patterns: string[]; field: keyof FieldErrors; message: string }> = [
+		{ patterns: ['phone', 'phonenumber', 'phone number'], field: 'phone', message: 'Please provide a valid phone number' },
+		{ patterns: ['email', 'customer email'], field: 'email', message: 'Please provide a valid email address' },
+		{ patterns: ['address', 'billing address'], field: 'address', message: 'Please provide a valid address' },
+		{ patterns: ['name', 'customer name'], field: 'name', message: 'Please provide a valid name' },
+		{ patterns: ['city'], field: 'city', message: 'Please provide a valid city' },
+		{ patterns: ['state'], field: 'state', message: 'Please provide a valid state' }
+	];
+
+	for (const mapping of mappings) {
+		if (mapping.patterns.some((p) => lower.includes(p))) {
+			return { [mapping.field]: [mapping.message] };
+		}
+	}
+
+	return null;
+}
+
 function getSecretKey() {
 	const key = env.FLW_SECRET_KEY;
 	if (!key) throw new Error('FLW_SECRET_KEY is not set');
@@ -20,7 +55,7 @@ async function flutterwaveFetch<T>(path: string, options: RequestInit = {}): Pro
 
 	const data = await response.json();
 	if (!response.ok) {
-		throw new Error(data.message ?? 'Flutterwave API error');
+		throw new FlutterwaveError(data.message ?? 'Flutterwave API error', response.status, data);
 	}
 
 	return data;

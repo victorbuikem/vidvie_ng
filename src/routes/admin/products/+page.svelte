@@ -7,6 +7,7 @@
 	import Input from '$lib/components/ui/input.svelte';
 	import Badge from '$lib/components/ui/badge.svelte';
 	import Pagination from '$lib/components/ui/pagination.svelte';
+	import { proxyImageUrl } from '$lib/utils/image';
 
 	let { data } = $props();
 
@@ -66,7 +67,7 @@
 							<td class="px-4 py-3">
 								<div class="flex items-center gap-3">
 									{#if product.images[0]}
-										<img src={product.images[0]} alt="" class="h-10 w-10 rounded-lg object-cover" />
+										<img src={proxyImageUrl(product.images[0])} alt="" class="h-10 w-10 rounded-lg object-cover" />
 									{:else}
 										<div class="h-10 w-10 rounded-lg bg-surface-100"></div>
 									{/if}

@@ -2,6 +2,7 @@ import {
 	S3Client,
 	PutObjectCommand,
 	DeleteObjectCommand,
+	GetObjectCommand,
 	PutBucketCorsCommand
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -55,26 +56,15 @@ export async function deleteObject(key: string): Promise<void> {
 }
 
 export function getPublicUrl(key: string): string {
-	const endpoint = env.RAILWAY_BUCKET_ENDPOINT;
-	const bucket = getBucketName();
-	return `${endpoint}/${bucket}/${key}`;
+	return `/api/images/${key}`;
 }
 
-export async function configureBucketCors(): Promise<void> {
+export async function getObject(key: string) {
 	const client = getClient();
-	await client.send(
-		new PutBucketCorsCommand({
+	return client.send(
+		new GetObjectCommand({
 			Bucket: getBucketName(),
-			CORSConfiguration: {
-				CORSRules: [
-					{
-						AllowedOrigins: ['*'],
-						AllowedMethods: ['GET', 'PUT'],
-						AllowedHeaders: ['*'],
-						MaxAgeSeconds: 3600
-					}
-				]
-			}
+			Key: key
 		})
 	);
 }

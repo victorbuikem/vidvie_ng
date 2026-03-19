@@ -17,6 +17,9 @@ importers:
       bits-ui:
         specifier: ^2.16.3
         version: 2.16.3(@internationalized/date@3.12.0)(@sveltejs/kit@2.53.4(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.53.7)(vite@7.3.1(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)))(svelte@5.53.7)(typescript@5.9.3)(vite@7.3.1(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)))(svelte@5.53.7)
+      nodemailer:
+        specifier: ^8.0.3
+        version: 8.0.3
       svelte-sonner:
         specifier: ^1.1.0
         version: 1.1.0(svelte@5.53.7)
@@ -51,6 +54,9 @@ importers:
       '@types/node':
         specifier: ^24
         version: 24.12.0
+      '@types/nodemailer':
+        specifier: ^7.0.11
+        version: 7.0.11
       better-auth:
         specifier: ~1.4.21
         version: 1.4.21(@prisma/client@5.22.0)(@sveltejs/kit@2.53.4(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.53.7)(vite@7.3.1(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)))(svelte@5.53.7)(typescript@5.9.3)(vite@7.3.1(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)))(better-sqlite3@12.6.2)(drizzle-kit@0.31.9)(drizzle-orm@0.45.1(@prisma/client@5.22.0)(@types/pg@8.18.0)(better-sqlite3@12.6.2)(kysely@0.28.11)(pg@8.20.0)(postgres@3.4.8))(pg@8.20.0)(svelte@5.53.7)
@@ -1505,6 +1511,9 @@ packages:
   '@types/node@24.12.0':
     resolution: {integrity: sha512-GYDxsZi3ChgmckRT9HPU0WEhKLP08ev/Yfcq2AstjrDASOYCSXeyjDsHg4v5t4jOj7cyDX3vmprafKlWIG9MXQ==}
 
+  '@types/nodemailer@7.0.11':
+    resolution: {integrity: sha512-E+U4RzR2dKrx+u3N4DlsmLaDC6mMZOM/TPROxA0UAPiTgI0y4CEFBmZE+coGWTjakDriRsXG368lNk1u9Q0a2g==}
+
   '@types/pg@8.18.0':
     resolution: {integrity: sha512-gT+oueVQkqnj6ajGJXblFR4iavIXWsGAFCk3dP4Kki5+a9R4NMt0JARdk6s8cUKcfUoqP5dAtDSLU8xYUTFV+Q==}
 
@@ -2252,6 +2261,10 @@ packages:
 
   node-releases@2.0.36:
     resolution: {integrity: sha512-TdC8FSgHz8Mwtw9g5L4gR/Sh9XhSP/0DEkQxfEFXOpiul5IiHgHan2VhYYb6agDSfp4KuvltmGApc8HMgUrIkA==}
+
+  nodemailer@8.0.3:
+    resolution: {integrity: sha512-JQNBqvK+bj3NMhUFR3wmCl3SYcOeMotDiwDBvIoCuQdF0PvlIY0BH+FJ2CG7u4cXKPChplE78oowlH/Otsc4ZQ==}
+    engines: {node: '>=6.0.0'}
 
   nypm@0.6.5:
     resolution: {integrity: sha512-K6AJy1GMVyfyMXRVB88700BJqNUkByijGJM8kEHpLdcAt+vSQAVfkWWHYzuRXHSY6xA2sNc5RjTj0p9rE2izVQ==}
@@ -4398,6 +4411,10 @@ snapshots:
     dependencies:
       undici-types: 7.16.0
 
+  '@types/nodemailer@7.0.11':
+    dependencies:
+      '@types/node': 24.12.0
+
   '@types/pg@8.18.0':
     dependencies:
       '@types/node': 24.12.0
@@ -4942,6 +4959,8 @@ snapshots:
   node-fetch-native@1.6.7: {}
 
   node-releases@2.0.36: {}
+
+  nodemailer@8.0.3: {}
 
   nypm@0.6.5:
     dependencies:

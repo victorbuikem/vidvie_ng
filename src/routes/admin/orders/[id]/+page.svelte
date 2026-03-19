@@ -5,6 +5,7 @@
 	import Card from '$lib/components/ui/card.svelte';
 	import Badge from '$lib/components/ui/badge.svelte';
 	import Separator from '$lib/components/ui/separator.svelte';
+	import { proxyImageUrl } from '$lib/utils/image';
 
 	let { data } = $props();
 	let { order } = $derived(data);
@@ -134,7 +135,7 @@
 							<td class="px-6 py-3">
 								<div class="flex items-center gap-3">
 									{#if item.product.images[0]}
-										<img src={item.product.images[0]} alt="" class="h-10 w-10 rounded-lg object-cover" />
+										<img src={proxyImageUrl(item.product.images[0])} alt="" class="h-10 w-10 rounded-lg object-cover" />
 									{/if}
 									<span class="font-medium text-surface-900">{item.product.name}</span>
 								</div>

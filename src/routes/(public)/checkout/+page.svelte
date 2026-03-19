@@ -33,9 +33,9 @@
 <div class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
 	<h1 class="font-heading text-3xl font-medium text-surface-900">Checkout</h1>
 
-	{#if form?.message}
+	{#if form?.message || form?.error}
 		<div class="mt-4 rounded-lg border border-danger-500 bg-red-50 p-4 text-sm text-danger-600">
-			{form.message}
+			{form.message ?? form.error}
 		</div>
 	{/if}
 
@@ -57,7 +57,7 @@
 				>
 					<div>
 						<label for="name" class="mb-1 block text-sm font-medium text-surface-700">Full Name</label>
-						<Input id="name" name="name" required value={form?.shipping?.name ?? data.user.name} />
+						<Input id="name" name="name" required value={form?.shipping?.name ?? data.lastAddress?.name ?? data.user.name} />
 						{#if form?.errors?.name}
 							<p class="mt-1 text-sm text-danger-500">{form.errors.name[0]}</p>
 						{/if}
@@ -65,7 +65,7 @@
 
 					<div>
 						<label for="phone" class="mb-1 block text-sm font-medium text-surface-700">Phone Number</label>
-						<Input id="phone" name="phone" type="tel" required placeholder="+234..." value={form?.shipping?.phone ?? ''} />
+						<Input id="phone" name="phone" type="tel" required placeholder="+234..." value={form?.shipping?.phone ?? data.lastAddress?.phone ?? ''} />
 						{#if form?.errors?.phone}
 							<p class="mt-1 text-sm text-danger-500">{form.errors.phone[0]}</p>
 						{/if}
@@ -73,7 +73,7 @@
 
 					<div>
 						<label for="address" class="mb-1 block text-sm font-medium text-surface-700">Address</label>
-						<Input id="address" name="address" required placeholder="Street address" value={form?.shipping?.address ?? ''} />
+						<Input id="address" name="address" required placeholder="Street address" value={form?.shipping?.address ?? data.lastAddress?.address ?? ''} />
 						{#if form?.errors?.address}
 							<p class="mt-1 text-sm text-danger-500">{form.errors.address[0]}</p>
 						{/if}
@@ -82,7 +82,7 @@
 					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 						<div>
 							<label for="city" class="mb-1 block text-sm font-medium text-surface-700">City</label>
-							<Input id="city" name="city" required value={form?.shipping?.city ?? ''} />
+							<Input id="city" name="city" required value={form?.shipping?.city ?? data.lastAddress?.city ?? ''} />
 							{#if form?.errors?.city}
 								<p class="mt-1 text-sm text-danger-500">{form.errors.city[0]}</p>
 							{/if}
@@ -98,7 +98,7 @@
 							>
 								<option value="">Select state...</option>
 								{#each nigerianStates as state}
-									<option value={state} selected={form?.shipping?.state === state}>{state}</option>
+									<option value={state} selected={form?.shipping?.state === state || (!form?.shipping?.state && data.lastAddress?.state === state)}>{state}</option>
 								{/each}
 							</select>
 							{#if form?.errors?.state}

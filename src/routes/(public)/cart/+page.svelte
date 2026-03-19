@@ -3,6 +3,7 @@
 	import Button from '$lib/components/ui/button.svelte';
 	import Card from '$lib/components/ui/card.svelte';
 	import Separator from '$lib/components/ui/separator.svelte';
+	import { proxyImageUrl } from '$lib/utils/image';
 
 	let { data } = $props();
 
@@ -48,7 +49,7 @@
 						<!-- Image -->
 						<div class="h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-surface-100">
 							{#if item.product.images[0]}
-								<img src={item.product.images[0]} alt={item.product.name} class="h-full w-full object-cover" />
+								<img src={proxyImageUrl(item.product.images[0])} alt={item.product.name} class="h-full w-full object-cover" />
 							{/if}
 						</div>
 

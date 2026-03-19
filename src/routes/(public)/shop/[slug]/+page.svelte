@@ -4,6 +4,7 @@
 	import Button from '$lib/components/ui/button.svelte';
 	import Badge from '$lib/components/ui/badge.svelte';
 	import Card from '$lib/components/ui/card.svelte';
+	import { proxyImageUrl } from '$lib/utils/image';
 
 	let { data } = $props();
 	let { product, relatedProducts } = $derived(data);
@@ -29,7 +30,7 @@
 	<meta property="og:title" content={product.name} />
 	<meta property="og:description" content={product.description.slice(0, 160)} />
 	{#if product.images[0]}
-		<meta property="og:image" content={product.images[0]} />
+		<meta property="og:image" content={proxyImageUrl(product.images[0])} />
 	{/if}
 </svelte:head>
 
@@ -51,7 +52,7 @@
 			<div class="aspect-square overflow-hidden rounded-xl bg-surface-100">
 				{#if product.images[selectedImage]}
 					<img
-						src={product.images[selectedImage]}
+						src={proxyImageUrl(product.images[selectedImage])}
 						alt={product.name}
 						class="h-full w-full object-cover"
 					/>
@@ -70,7 +71,7 @@
 							class="h-20 w-20 overflow-hidden rounded-lg border-2 transition-colors {i === selectedImage ? 'border-brand-400' : 'border-surface-200 hover:border-surface-300'}"
 							onclick={() => (selectedImage = i)}
 						>
-							<img src={image} alt="{product.name} thumbnail {i + 1}" class="h-full w-full object-cover" />
+							<img src={proxyImageUrl(image)} alt="{product.name} thumbnail {i + 1}" class="h-full w-full object-cover" />
 						</button>
 					{/each}
 				</div>
@@ -173,7 +174,7 @@
 						<Card padding={false}>
 							<div class="aspect-square overflow-hidden rounded-t-[1.2rem] bg-surface-100">
 								{#if rp.images[0]}
-									<img src={rp.images[0]} alt={rp.name} class="h-full w-full object-cover transition-transform group-hover:scale-105" />
+									<img src={proxyImageUrl(rp.images[0])} alt={rp.name} class="h-full w-full object-cover transition-transform group-hover:scale-105" />
 								{/if}
 							</div>
 							<div class="p-4">

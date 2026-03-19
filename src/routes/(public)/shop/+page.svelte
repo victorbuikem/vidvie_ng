@@ -6,6 +6,7 @@
 	import Input from '$lib/components/ui/input.svelte';
 	import Badge from '$lib/components/ui/badge.svelte';
 	import Pagination from '$lib/components/ui/pagination.svelte';
+	import { proxyImageUrl } from '$lib/utils/image';
 
 	let { data } = $props();
 
@@ -129,7 +130,7 @@
 								<div class="relative aspect-square overflow-hidden rounded-t-[1.2rem] bg-surface-100">
 									{#if product.images[0]}
 										<img
-											src={product.images[0]}
+											src={proxyImageUrl(product.images[0])}
 											alt={product.name}
 											class="h-full w-full object-cover transition-transform group-hover:scale-105"
 										/>
