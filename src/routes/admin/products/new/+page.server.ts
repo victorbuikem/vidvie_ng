@@ -12,7 +12,7 @@ const productSchema = z.object({
 	discountPrice: z.number().positive().nullable(),
 	categoryId: z.string().min(1, 'Category is required'),
 	stock: z.number().int().min(0, 'Stock cannot be negative'),
-	images: z.array(z.string().url()).default([]),
+	images: z.array(z.string()).default([]),
 	featuredOnLanding: z.boolean().default(false)
 });
 
